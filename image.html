@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Images</title>
+  <title>Audio</title>
   <style>
     * {
       margin: 0;
@@ -83,7 +83,7 @@
       color: #FFFFFF;
     }
 
-    .video {
+    .audio {
       width: 100%;
       height: 20%;
       background: transparent;
@@ -93,10 +93,9 @@
       display: none; /* Initially hidden */
     }
 
-    .video .vid {
-      width: 100px;
-      height: 150px;
-      opacity: 0;
+    .audio .sound {
+      width: 100%;
+      height: auto;
     }
 
     .enable-audio {
@@ -118,13 +117,14 @@
 
 <body>
   <!-- Enable Audio Button -->
-  <button class="enable-audio" onclick="enableAudio()">Watch Now!!</button>
+  <button class="enable-audio" onclick="enableAudio()">Listen Now!!</button>
 
-  <!-- Video Element -->
-  <div class="video">
-    <video class="vid" controls>
-      <source src="song.mp4" type="video/mp4">
-    </video>
+  <!-- Audio Element -->
+  <div class="audio">
+    <audio class="sound" controls>
+      <source src="music.mp3" type="audio/mp3">
+      Your browser does not support the audio element.
+    </audio>
   </div>
 
   <!-- Spinning Box -->
@@ -153,16 +153,14 @@
   </div>
 
   <script>
-    // Function to show the video, box, and footer after enabling audio
+    // Function to show the audio, box, and footer after enabling audio
     function enableAudio() {
-      const video = document.querySelector('.vid');
+      const audio = document.querySelector('.sound');
       const box = document.querySelector('.box');
       const foot = document.querySelector('.foot');
 
-      // Play the video and unmute it
-      video.play().then(() => {
-        video.muted = false; // Unmute the video
-      }).catch((error) => {
+      // Play the audio
+      audio.play().catch((error) => {
         console.error('Error enabling audio:', error);
       });
 
@@ -173,17 +171,14 @@
       // Hide the Enable Audio button
       document.querySelector('.enable-audio').style.display = 'none';
 
-      // Show the video
-      document.querySelector('.video').style.display = 'flex';
+      // Show the audio element
+      document.querySelector('.audio').style.display = 'flex';
     }
 
-    // Initially, the video won't play (it's paused)
+    // Initially, the audio won't play (it's paused)
     window.onload = function() {
-      const video = document.querySelector('.vid');
-      video.muted = true; // Start muted
-
-      // The video does not autoplay, it will only play after clicking the button
-      document.querySelector('.enable-audio').style.display = 'block'; // Show the Enable Audio button first
+      // Show the Enable Audio button first
+      document.querySelector('.enable-audio').style.display = 'block';
     };
   </script>
 </body>
