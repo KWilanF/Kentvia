@@ -40,11 +40,11 @@
             color: #FFFFFF;
             font-size: 12px;
         }
-        #togglePassword {
-  font-size: 16px;
-  user-select: none;
-}
 
+        #togglePassword {
+            font-size: 16px;
+            user-select: none;
+        }
 
         button {
             width: 50%;
@@ -89,13 +89,28 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: rgba(0, 0, 0, 0.5);
-            color: white;
-            font-size: 3em;
-            font-weight: bold;
+            background-color: rgba(0, 0, 0, 0.7);
             display: none; /* Initially hidden */
         }
 
+        /* Spinner */
+        .spinner {
+            border: 5px solid rgba(255, 255, 255, 0.2);
+            border-top: 5px solid white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 </head>
 <body>
@@ -107,16 +122,15 @@
                 <p id="fullnameError" class="errorMessage hidden">Invalid</p>
             </div>
 
-<div>
-  <div style="position: relative;">
-    <input type="password" id="anniv" required placeholder="Anniversary Date (DD/MM/YYYY)">
-    <span id="togglePassword" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #FFFFFF;">
-      👁️
-    </span>
-  </div>
-  <p id="annivError" class="errorMessage hidden">Invalid</p>
-</div>
-
+            <div>
+                <div style="position: relative;">
+                    <input type="password" id="anniv" required placeholder="Anniversary Date (DD/MM/YYYY)">
+                    <span id="togglePassword" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #FFFFFF;">
+                        👁️
+                    </span>
+                </div>
+                <p id="annivError" class="errorMessage hidden">Invalid</p>
+            </div>
 
             <div class="submit">
                 <button type="submit">Login</button>
@@ -125,80 +139,75 @@
     </div>
 
     <!-- Loading Screen -->
-    <div id="loading">5</div>
+    <div id="loading">
+        <div class="spinner"></div>
+    </div>
 
-<script>
+    <script>
+        // Toggle Password Visibility
+        document.getElementById("togglePassword").addEventListener("click", function () {
+            const passwordField = document.getElementById("anniv");
+            const type = passwordField.type === "password" ? "text" : "password";
+            passwordField.type = type;
 
-document.getElementById("togglePassword").addEventListener("click", function () {
-  const passwordField = document.getElementById("anniv");
-  const type = passwordField.type === "password" ? "text" : "password";
-  passwordField.type = type;
-
-  // Change the icon based on the password visibility
-  this.textContent = type === "password" ? "👁️" : "🙈";
-});
-
-    function handleLogin(event) {
-        event.preventDefault(); // Prevent the default form submission
-
-        // Get form values
-        var fullname = document.getElementById("fullname").value;
-        var anniv = document.getElementById("anniv").value;
-
-        // Define valid user credentials (You can add real users here)
-        var validUsers = [
-            { name: "Via Enopia", anniv: "25/01/2023" },  // Example user
-            { name: "Kent Wilan Fegarido", anniv: "25/01/2023" }  // Example user
-        ];
-
-        // Reset any previous errors
-        resetErrors();
-
-        var isValidFullname = validUsers.some(function(user) {
-            return user.name === fullname;
+            // Change the icon based on the password visibility
+            this.textContent = type === "password" ? "👁️" : "🙈";
         });
 
-        var isValidAnniv = validUsers.some(function(user) {
-            return user.anniv === anniv;
-        });
+        function handleLogin(event) {
+            event.preventDefault(); // Prevent the default form submission
 
-        // Check if the input matches any valid user
-        if (isValidFullname && isValidAnniv) {
-            // Display loading screen
-            document.getElementById("loading").style.display = "flex";
+            // Get form values
+            var fullname = document.getElementById("fullname").value;
+            var anniv = document.getElementById("anniv").value;
 
-            // Start the countdown and redirect after it reaches 0
-            let countdown = 5;
-            let countdownInterval = setInterval(function() {
-                countdown--;
-                document.getElementById("loading").textContent = countdown;
+            // Define valid user credentials
+            var validUsers = [
+                { name: "Via Enopia", anniv: "25/01/2023" },
+                { name: "Kent Wilan Fegarido", anniv: "25/01/2023" }
+            ];
 
-                if (countdown === 0) {
-                    clearInterval(countdownInterval);
+            // Reset any previous errors
+            resetErrors();
+
+            var isValidFullname = validUsers.some(function(user) {
+                return user.name === fullname;
+            });
+
+            var isValidAnniv = validUsers.some(function(user) {
+                return user.anniv === anniv;
+            });
+
+            // Check if the input matches any valid user
+            if (isValidFullname && isValidAnniv) {
+                // Display loading screen with spinner
+                document.getElementById("loading").style.display = "flex";
+
+                // Redirect to the dashboard page after 3 seconds
+                setTimeout(function() {
                     window.location.href = "dashboard.html"; // Redirect to the dashboard page
+                }, 2000);
+            } else {
+                // Show error messages and highlight fields
+                if (!isValidFullname) {
+                    document.getElementById("fullname").classList.add("inputError");
+                    document.getElementById("fullnameError").classList.remove("hidden");
                 }
-            }, 1000);
-        } else {
-            // Show error messages and highlight fields
-            if (!isValidFullname) {
-                document.getElementById("fullname").classList.add("inputError");
-                document.getElementById("fullnameError").classList.remove("hidden");
-            }
-            if (!isValidAnniv) {
-                document.getElementById("anniv").classList.add("inputError");
-                document.getElementById("annivError").classList.remove("hidden");
+                if (!isValidAnniv) {
+                    document.getElementById("anniv").classList.add("inputError");
+                    document.getElementById("annivError").classList.remove("hidden");
+                }
             }
         }
-    }
 
-    // Function to reset error states
-    function resetErrors() {
-        document.getElementById("fullname").classList.remove("inputError");
-        document.getElementById("anniv").classList.remove("inputError");
-        document.getElementById("fullnameError").classList.add("hidden");
-        document.getElementById("annivError").classList.add("hidden");
-    }
-</script>
+        // Function to reset error states
+        function resetErrors() {
+            document.getElementById("fullname").classList.remove("inputError");
+            document.getElementById("anniv").classList.remove("inputError");
+            document.getElementById("fullnameError").classList.add("hidden");
+            document.getElementById("annivError").classList.add("hidden");
+        }
+    </script>
 
 </body>
 </html>
