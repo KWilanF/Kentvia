@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  
+  <title></title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 50vh;
+      background-image: url('bg.jpeg');
+    }
+    
+    .box{
+      position: fixed;
+      width: 190px;
+      height: 190px;
+      transform-style: preserve-3d;
+      animation: animate 30s linear infinite;
+    }
+    
+    @keyframes animate{
+      0%{
+        transform: perspective(1000px)rotateY(0deg);
+      }
+      100%{
+        transform: perspective(1000px)rotateY(360deg);
+      }
+    }
+    
+    .box span{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      transform-origin: center;
+      transform-style: preserve-3d;
+      transform: rotateY(calc(var(--i) * 45deg)) translateZ(400px);
+      -webkit-box-reflect: below 0px linear-gradient(transparent, transparent, black); 
+    }
+    
+    .box span img{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      border: 2px solid white;
+      border-radius: 18px;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    
+    .foot{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: -900px;
+      font-size: 3vh;
+     
+    }
+    .foot a{
+      color: #FFFFFF;
+    }
+    
+    
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <span style="--i: 1"><img src="img1.jpeg"></span>
+    <span style="--i: 2"><img src="img2.jpeg"></span>
+    <span style="--i: 3"><img src="img3.jpeg"></span>
+    <span style="--i: 4"><img src="img4.jpeg"></span>
+    <span style="--i: 5"><img src="img5.jpeg"></span>
+    <span style="--i: 6"><img src="img6.png"></span>
+    <span style="--i: 7"><img src="img7.jpg"></span>
+    <span style="--i: 8"><img src="img8.jpg"></span>
+    <span style="--i: 9"><img src="img9.jpeg"></span>
+    <span style="--i: 10"><img src="img10.jpg"></span>
+    <span style="--i: 11"><img src="img11.jpg"></span>
+    <span style="--i: 12"><img src="img12.jpeg"></span>
+    <span style="--i: 13"><img src="img13.jpeg"></span>
+    <span style="--i: 14"><img src="img14.jpeg"></span>
+    <span style="--i: 15"><img src="img15.jpg"></span>
+    <span style="--i: 16"><img src="img16.jpg"></span>
+
+  </div>
+  
+      <div class="foot">
+      <a href="dashboard.html">Back</a>
+      </div>
+
+
+</body>
+
+</html>
