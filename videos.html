@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,6 +17,9 @@
     body {
       font-family: Arial, sans-serif;
       background-image: url('bg.jpeg');
+      background-repeat: no-repeat;
+      background-size: cover; /* Scale the image to cover the entire viewport */
+      background-position: center center;
       height: 100vh;
       overflow: hidden;
       display: flex;
@@ -24,13 +28,39 @@
       justify-content: center;
     }
 
+    /* Hide content initially */
+    .dashboard-content {
+      display: none; /* Hide until Watch Now is clicked */
+    }
+
+    /* Watch Now Button */
+    .watch-now {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 15px 30px;
+      background: #ffffff;
+      color: #000000;
+      border: 2px solid #B1ABAB;
+      border-radius: 10px;
+      font-size: 20px;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .watch-now:hover {
+      background: #000000;
+      color: #ffffff;
+    }
+
     /* Slider Container */
     .container {
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 90%;
-      height: 70%;
+      width: 100%;
+      height: 100%;
       position: relative;
     }
 
@@ -41,12 +71,14 @@
       width: 100%;
       height: 100%;
       position: relative;
+      margin-top: -50px;
+      background: transparent;
     }
 
     /* Individual Video Items */
     .item {
-      min-width: 390px;
-      height: 550px;
+      min-width: 70%; /* Make the items smaller to fit well on mobile */
+      height: 250px; /* Set a fixed height for videos */
       margin: 0 10px;
       border-radius: 10px;
       background-color: rgba(255, 255, 255, 0.1);
@@ -62,48 +94,45 @@
     .video video {
       width: 100%;
       height: 100%;
-      object-fit: cover; /* Ensures proper scaling of the video */
+      object-fit: cover;
       border-radius: 10px;
     }
 
     /* Navigation Buttons */
     .button {
       position: absolute;
-      bottom: -1px;
+      bottom: 10px;
       width: 100%;
       text-align: center;
-
     }
 
     .button button {
-      width: 90px;
-      height: 30px;
+      width: 40px;
+      height: 35px;
+      border-radius: 8px;
       border: none;
       cursor: pointer;
-      background: #ffffff;
-      color: #000000;
+      margin: 0 5px;
+      background: transparent;
       font-size: 22px;
-      border-radius: 5px;
-      margin: 0 15px;
       transition: background 0.3s;
     }
 
     .button button:hover {
-      background: #000000;
-      color: #ffffff;
+      background: #686A7E;
+      color: #FFFFFF;
     }
 
     /* Footer Styling */
     .foot {
       position: absolute;
-      bottom: 5px;
+      bottom: 10px;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
       justify-content: center;
       align-items: center;
       width: 100%;
-      height: 5%;
       gap: 50px;
       background: transparent;
     }
@@ -112,77 +141,230 @@
       background: transparent;
       color: #000000;
       text-decoration: underline;
-      font-size: 20px;
+      font-size: 18px;
       border: none;
+    }
+
+    /* Media Queries for Mobile */
+    @media (max-width: 768px) {
+      .item {
+        margin-top: 200px;
+        min-width: 95%; /* Increase size of items on smaller screens */
+        height: 50%; /* Adjust height */
+        
+      }
+
+      .watch-now {
+        font-size: 20px;
+        padding: 10px 20px;
+      }
+
+/* Container for the buttons */
+.button {
+  position: fixed;
+  bottom: 150px; /* Moves the buttons to the bottom */
+  left: 80%; /* Positions the buttons horizontally centered */
+  transform: translateX(-50%); /* Centers the buttons exactly */
+  display: flex; /* Use flexbox to align buttons */
+  gap: 20px; /* Space between the buttons */
+  align-items: center;
+}
+
+/* Individual Button Styling */
+.button button {
+  width: 60px;
+  height: 60px;
+  font-size: 28px;
+  border-radius: 50%; /* Makes the buttons circular */
+  background-color: #ffffff;
+  color: #000000;
+  border: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional: Adds a shadow for better visibility */
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effects */
+}
+
+.button button:hover {
+  background-color: #000000; /* Changes background on hover */
+  color: #ffffff; /* Changes text color on hover */
+}
+
+
+      .foot button {
+        font-size: 20px;
+        margin-bottom: 50px;
+      }
+    }
+    
+        .bubble {
+      position: fixed;
+      bottom: 0;
+      width: 30px;
+      height: 30px;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      animation: floatBubble 8s linear forwards;
+      z-index: 0;
+    }
+
+    /* Floating Upward Effect */
+    @keyframes floatBubble {
+      0% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh);
+        opacity: 0;
+      }
     }
   </style>
 </head>
+
 <body>
-  <!-- Video Slider -->
-  <div class="container">
-    <div class="slide">
-      <!-- Video 1 -->
-      <div class="item">
-        <div class="video">
-          <video controls poster="poster1.png">
-            <source src="vid1.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
+  
+  <div class="bubble"></div>
+  <!-- Watch Now Button -->
+  <button class="watch-now" id="watchNowButton">Watch Now</button>
+
+  <!-- Dashboard Content -->
+  <div class="dashboard-content">
+    <!-- Video Slider -->
+    <div class="container">
+      <div class="slide">
+        <!-- Video 1 -->
+        <div class="item">
+          <div class="video">
+            <video controls muted poster="poster1.png">
+              <source src="vid1.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+
+        <!-- Video 2 -->
+        <div class="item">
+          <div class="video">
+            <video controls muted poster="poster2.png">
+              <source src="vid2.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+
+        <!-- Video 3 -->
+        <div class="item">
+          <div class="video">
+            <video controls muted poster="poster3.png">
+              <source src="vid3.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
         </div>
       </div>
 
-      <!-- Video 2 -->
-      <div class="item">
-        <div class="video">
-          <video controls poster="poster2.png">
-            <source src="vid2.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-        </div>
-      </div>
-
-      <!-- Video 3 -->
-      <div class="item">
-        <div class="video">
-          <video controls poster="poster3.png">
-            <source src="vid3.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-        </div>
+      <!-- Navigation Buttons -->
+      <div class="button">
+        <button class="prev">&lt;</button>
+        <button class="next">&gt;</button>
       </div>
     </div>
 
-    <!-- Navigation Buttons -->
-    <div class="button">
-      <button class="prev">&lt;</button>
-      <button class="next">&gt;</button>
+    <!-- Footer -->
+    <div class="foot">
+      <button class="link-button" onclick="window.location.href='dashboard.html'">Back</button>
+      <button class="link-button" onclick="window.location.href='image.html'">Images</button>
     </div>
   </div>
 
-  <!-- Footer -->
-  <div class="foot">
-<button class="link-button" onclick="window.location.href='dashboard.html'">Back</button>
-
-<button class="link-button" onclick="window.location.href='image.html'">Images</button>
-  </div>
+  <!-- Audio Element -->
+  <audio id="backgroundAudio" loop>
+    <source src="music.mp3" type="audio/mp3">
+    Your browser does not support the audio element.
+  </audio>
 
   <!-- JavaScript -->
   <script>
+  
+        // Function to create a single bubble
+    function createBubble() {
+      const bubble = document.createElement('div');
+      bubble.classList.add('bubble');
+
+      // Randomize bubble size
+      const size = Math.random() * 30 + 20; // 20px to 50px
+      bubble.style.width = `${size}px`;
+      bubble.style.height = `${size}px`;
+
+      // Randomize horizontal starting position (anywhere along the bottom)
+      const positionX = Math.random() * window.innerWidth;
+      bubble.style.left = `${positionX}px`;
+
+      // Append bubble to the body
+      document.body.appendChild(bubble);
+
+      // Remove bubble after animation ends
+      setTimeout(() => {
+        bubble.remove();
+      }, 8000); // Match animation duration
+    }
+
+    // Generate bubbles continuously
+    setInterval(createBubble, 1900); // Bubble every 300ms
+  
+  
+  
+  
+  
     const nextButton = document.querySelector('.next');
     const prevButton = document.querySelector('.prev');
     const slide = document.querySelector('.slide');
+    const watchNowButton = document.getElementById('watchNowButton');
+    const dashboardContent = document.querySelector('.dashboard-content');
+    const backgroundAudio = document.getElementById('backgroundAudio');
+
+    // Helper function to stop all videos
+    function stopAllVideos() {
+      const videos = document.querySelectorAll('video');
+      videos.forEach((video) => {
+        video.pause();
+        video.currentTime = 0; // Reset the video to the beginning
+      });
+    }
+
+    // Function to play the first video in the slider
+    function playFirstVisibleVideo() {
+      const visibleVideo = slide.querySelector('.item video'); // First visible video
+      if (visibleVideo) {
+        visibleVideo.play();
+      }
+    }
+
+    // Show dashboard content and play audio when Watch Now button is clicked
+    watchNowButton.addEventListener('click', () => {
+      watchNowButton.style.display = 'none'; // Hide the Watch Now button
+      dashboardContent.style.display = 'block'; // Show the dashboard content
+      backgroundAudio.play().catch(error => {
+        console.error('Error playing audio:', error);
+      });
+    });
 
     // Move to the next video
     nextButton.addEventListener('click', () => {
       const items = document.querySelectorAll('.item');
+      stopAllVideos(); // Stop all playing videos
       slide.appendChild(items[0]); // Move the first item to the end
+      playFirstVisibleVideo(); // Play the first visible video
     });
 
     // Move to the previous video
     prevButton.addEventListener('click', () => {
       const items = document.querySelectorAll('.item');
+      stopAllVideos(); // Stop all playing videos
       slide.prepend(items[items.length - 1]); // Move the last item to the beginning
+      playFirstVisibleVideo(); // Play the first visible video
     });
   </script>
 </body>
+
 </html>
