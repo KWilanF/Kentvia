@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Bubbles Animation</title>
+  <title>Home Page</title>
   <style>
     * {
       margin: 0;
@@ -24,39 +24,6 @@
       position: relative;
     }
 
-    /* Bubble styling */
-    .bubble {
-      position: absolute;
-      bottom: 0;
-      width: 30px;
-      height: 30px;
-      background-color: rgba(255, 255, 255, 0.7);
-      border-radius: 50%;
-      opacity: 0;
-      animation: floatBubble 2s forwards, popBubble 2s forwards;
-    }
-
-    @keyframes floatBubble {
-      0% {
-        bottom: 0;
-        opacity: 1;
-        transform: scale(1);
-      }
-      100% {
-        bottom: 100%;
-        opacity: 0;
-        transform: scale(0);
-      }
-    }
-
-    @keyframes popBubble {
-      0% {
-        opacity: 1;
-      }
-      100% {
-        opacity: 0;
-      }
-    }
 
     .container {
       width: 100%;
@@ -72,9 +39,10 @@
     .message {
       color: white;
       opacity: 0;
+      display: none; /* Initially hidden */
       animation: showMessage 2s forwards;
       position: absolute;
-      top: 50px;
+      top: 10px;
       left: 50%;
       transform: translateX(-50%);
       text-align: center;
@@ -103,31 +71,29 @@
       height: 20%;
       border-radius: 8px;
       background-color: transparent;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      display: none;
+      display: none; /* Initially hidden */
       position: absolute;
       z-index: 10;
       bottom: 200px;
+      gap: 10px;
     }
 
     .button {
-      width: 60%;
-      padding: 10px;
+      width: 65%;
+      height: 40px;
       font-size: 15px;
-      background: #FFFFFF;
+      background: #ffffff;
       color: #A1A3B1;
       border: 1px solid #B1ABAB;
       border-radius: 4px;
       cursor: pointer;
-      margin-top: -150px;
+      margin-top: -100px;
     }
 
     /* New form styling for long message */
     .long-message-form {
       width: 90%;
-      height: 90vh; /* Takes 70% of viewport height */
+      height: 90vh;
       position: absolute;
       top: -15%;
       left: 50%;
@@ -149,20 +115,15 @@
     }
 
     .view-memories-button {
-      position: absolute;
-      bottom: 250px;
-      width: 42%;
-      padding: 10px;
+      width: 65%;
+      height: 40px;
       font-size: 15px;
       background: #FFFFFF;
       color: #A1A3B1;
       border: 1px solid #B1ABAB;
       border-radius: 4px;
       cursor: pointer;
-      margin-top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 11;
+      margin-top: -100px;
     }
 
     .close-btn {
@@ -175,10 +136,6 @@
       font-size: 40px;
       cursor: pointer;
     }
-    
-    
-
-    
 
     @keyframes showMessage {
       0% {
@@ -209,8 +166,6 @@
       align-items: center;
       flex-direction: column;
     }
-    
-
 
     .memory h2 {
       margin-bottom: 30px;
@@ -226,71 +181,130 @@
       cursor: pointer;
       margin-top: 20px;
     }
-.memory a{
-  position: absolute;
-top: 1px;
-right: 10px;
-background-color: transparent;
-border: none;
-color: #FFFFFF;
-font-size: 35px;
-cursor: pointer;
-text-decoration: none;
-}
+    .memory .button {
+      position: absolute;
+      top: -25px;
+      right: -56px;
+      background-color: transparent;
+      border: none;
+      color: #FFFFFF;
+      font-size: 35px;
+      cursor: pointer;
+      text-decoration: none;
+    }
 
-.video{
-  width: 100%;
-  height: 20%;
-  background: transparent;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.video .vid{
-  width: 100px;
-  height: 150px;
-  opacity: 0;
-}
+    .audio {
+      width: 100%;
+      height: 20%;
+      background: transparent;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      display: none; /* Initially hidden */
+    }
+
+    .audio .sound {
+      width: 100%;
+      height: auto;
+    }
+
+    .enable-audio {
+      position: absolute;
+      top: 300px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px 20px;
+      font-size: 18px;
+      background-color: #FFFFFF;
+      color: #A1A3B1;
+      border: 1px solid #B1ABAB;
+      border-radius: 4px;
+      cursor: pointer;
+      z-index: 10;
+    }
+    
+    .audioplay{
+      position: absolute;
+      top: 200px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 70%;
+      height: 50%;
+      background-color: transparent;
+      backdrop-filter: blur(70px);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 8;
+    }
+    
+        /* Bubble Styling */
+    .bubble {
+      position: absolute;
+      bottom: 0;
+      width: 30px;
+      height: 30px;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      animation: floatBubble 8s linear forwards;
+    }
+
+    /* Floating Upward Effect */
+    @keyframes floatBubble {
+      0% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh);
+        opacity: 0;
+      }
+    }
+    
   </style>
 </head>
 
-<body>
-  <div class="video">
-    <video class="vid" controls>    <source src="vid1.mp4" type="video/mp4" ></video>
+<body
+  <div class="audioplay">
+  <button class="enable-audio" onclick="enableAudio()">Continue</button>
+</div>
 
-  
 
+  <!-- Audio Element -->
+  <div class="audio">
+    <audio class="sound" controls>
+      <source src="music.mp3" type="audio/mp3">
+      Your browser does not support the audio element.
+    </audio>
   </div>
 
   <div class="container">
     <!-- Message that will appear after bubbles -->
     <div class="message">
       <h1>Happy Anniversary</h1>
-      <h5>(Love,Love²,Lang,Boss,Bossing,Uyab,Madam)</h5>
+      <h5>(Love, Love², Lang, Boss, Bossing, Uyab, Madam)</h5>
       <p>May this special day bring love, joy, and beautiful memories to cherish forever</p>
     </div>
 
     <!-- Hidden Form initially -->
     <div class="form">
-      <button class="button" type="submit" onclick="startSequence()">View Message</button>
+      <button class="button" type="submit" onclick="viewLongMessage()">View Message</button>
+      <button class="view-memories-button" onclick="viewMemories()">View Memories</button>
     </div>
 
     <!-- New long message form -->
     <div class="long-message-form">
       <button class="close-btn" onclick="closeLongMessage()">×</button>
       <p>Hi Uyab</p>
-      <p>On this beautiful anniversary day, my heart is filled with gratitude and love for you. You have been my support, my joy, and the one person who makes every day brighter. I look forward to the many more memories we will create together. Thank you for being you, and for sharing your life with me. Happy Anniversary, my love!</p>
-      <p>With all my love,</p>
-      <p>Your One and Only</p>
+      <p>On this beautiful anniversary day, my heart is filled with gratitude and love for you...</p>
     </div>
-
-    <!-- View Memories Button -->
-    <button class="view-memories-button" onclick="viewMemories()">View Memories</button>
   </div>
 
-  <!-- Memory Div -->
+  <!-- Memory Div with a close button -->
   <div class="memory">
-    <a href="dashboard.html">x</a>
+    <button class="button" onclick="closeMemory()">×</button>
     <h2>Our Memories</h2>
     <button onclick="window.location.href='image.html'">Images</button>
     <button onclick="window.location.href='videos.html'">Videos</button>
@@ -298,115 +312,92 @@ text-decoration: none;
 
   <script>
   
-  // Function to auto-play video and show dashboard
-  window.onload = function() {
-    // Auto-play the video
-    const video = document.querySelector('.vid');
-    video.play().catch(error => {
-      console.error('Video auto-play failed:', error);
-    });
-
-    // Show the dashboard (assuming this means showing a specific section)
-    setTimeout(() => {
-      window.location.href = 'dashboard.html'; // Redirect to the dashboard page
-    }, 5000); // Adjust time if needed (5 seconds delay for example)
-  };
-    // Function to create random bubbles
+      // Function to create a single bubble
     function createBubble() {
       const bubble = document.createElement('div');
       bubble.classList.add('bubble');
 
-      // Set random position for the bubble
-      const randomX = Math.random() * window.innerWidth;
-      bubble.style.left = `${randomX}px`;
+      // Randomize bubble size
+      const size = Math.random() * 30 + 20; // 20px to 50px
+      bubble.style.width = `${size}px`;
+      bubble.style.height = `${size}px`;
+
+      // Randomize horizontal starting position (anywhere along the bottom)
+      const positionX = Math.random() * window.innerWidth;
+      bubble.style.left = `${positionX}px`;
 
       // Append bubble to the body
       document.body.appendChild(bubble);
 
-      // Remove the bubble after animation completes (2 seconds)
+      // Remove bubble after animation ends
       setTimeout(() => {
         bubble.remove();
-      }, 2000);
+      }, 8000); // Match animation duration
     }
 
-    // Function to show Happy Anniversary message
-    function showAnniversaryMessage() {
-      const message = document.querySelector('.message');
-      message.style.animation = 'showMessage 3s forwards';
+    // Generate bubbles continuously
+    setInterval(createBubble, 500); // Bubble every 300ms
+  
+  
+  
+    // Function to show the audio, box, and footer after enabling audio
+    function enableAudio() {
+      const audio = document.querySelector('.sound');
+
+      // Play the audio
+      audio.play().catch((error) => {
+        console.error('Error enabling audio:', error);
+      });
+
+      // Hide the Enable Audio button
+      document.querySelector('.enable-audio').style.display = 'none';
+      
+      document.querySelector('.audioplay').style.display = 'none';
+
+      // Show the audio element
+      document.querySelector('.audio').style.display = 'flex';
+
+      // Show the message and form after clicking the button
+      document.querySelector('.message').style.display = 'block';
+      document.querySelector('.form').style.display = 'flex';
     }
 
-    // Function to show the form after message
-    function showForm() {
-      const form = document.querySelector('.form');
-      form.style.display = 'flex'; // Show the Continue button
-    }
+    // Function to view the long message
+    function viewLongMessage() {
+      // Hide all other elements except the long message form
+      document.querySelector('.message').style.display = 'none';
+      document.querySelector('.form').style.display = 'none';
 
-    // Function to show the long message form and hide the view memories button
-    function showLongMessageForm() {
+      // Show the long message form
       const longMessageForm = document.querySelector('.long-message-form');
-      longMessageForm.style.display = 'block'; // Show the long message form
-
-      // Hide the View Memories button
-      const memoriesButton = document.querySelector('.view-memories-button');
-      memoriesButton.style.display = 'none';
+      longMessageForm.style.display = 'block';
     }
 
     // Start the sequence after page load
     window.onload = function () {
-      // Show the anniversary message after 3 seconds
-      setTimeout(() => {
-        showAnniversaryMessage();
-      }, 3000);
-
-      // Show the Continue button after 2 seconds
-      setTimeout(() => {
-        showForm();
-      }, ); // After message appears for 3 seconds
+      document.querySelector('.enable-audio').style.display = 'block'; // Show the Enable Audio button first
     };
 
-    // Start the sequence when Continue button is clicked
-    function startSequence() {
-      const message = document.querySelector('.message');
-      const form = document.querySelector('.form');
-
-      // Hide message and form
-      message.style.display = 'none';
-      form.style.display = 'none';
-
-      // Show long message form
-      showLongMessageForm();
-    }
-
-    // Function to view memories (Placeholder for now)
+    // Function to view memories
     function viewMemories() {
-      // Hide all other content
       document.querySelector('.container').style.display = 'none';
-      document.querySelector('.message').style.display = 'none';
-      document.querySelector('.form').style.display = 'none';
-      document.querySelector('.long-message-form').style.display = 'none';
-      document.querySelector('.view-memories-button').style.display = 'none';
-
-      // Show the memory div
       document.querySelector('.memory').style.display = 'flex';
     }
 
-    // Close long message and return to previous state
-    function closeLongMessage() {
-      const longMessageForm = document.querySelector('.long-message-form');
-      const memoriesButton = document.querySelector('.view-memories-button');
-      const form = document.querySelector('.form');
-      const message = document.querySelector('.message');
-
-      longMessageForm.style.display = 'none'; // Hide the long message form
-      memoriesButton.style.display = 'block'; // Show the View Memories button
-      form.style.display = 'flex'; // Show the form
-      message.style.display = 'block'; // Show the message
+    // Function to close memory view
+    function closeMemory() {
+      document.querySelector('.memory').style.display = 'none';
+      document.querySelector('.container').style.display = 'flex';
     }
 
-    // Create random bubbles
-    setInterval(createBubble, 200); // Bubbles will be created every 200ms
+    // Function to close long message and return to previous state
+    function closeLongMessage() {
+      const longMessageForm = document.querySelector('.long-message-form');
+      longMessageForm.style.display = 'none'; // Hide the long message form
+      document.querySelector('.message').style.display = 'block'; // Show the message
+      document.querySelector('.form').style.display = 'flex'; // Show the form
+    }
   </script>
-
 </body>
 
 </html>
