@@ -131,7 +131,7 @@
 
 <body>
   <!-- Enable Audio Button -->
-  <button class="enable-audio" onclick="enableAudio()">Watch Now!</button>
+  <button class="enable-audio" id="enableAudioButton" onclick="enableAudio()">Watch Now!</button>
 
   <!-- Audio Element -->
   <div class="audio">
@@ -188,6 +188,7 @@
       const audio = document.querySelector('.sound');
       const box = document.querySelector('.box');
       const foot = document.querySelector('.foot');
+      const enableAudioButton = document.getElementById('enableAudioButton');
 
       // Play the audio
       audio.play().catch((error) => {
@@ -200,12 +201,13 @@
       foot.style.display = 'flex';
 
       // Hide the enable button
-      document.querySelector('.enable-audio').style.display = 'none';
+      enableAudioButton.style.display = 'none';
     }
 
     // On page load, show the enable audio button
     window.onload = () => {
-      document.querySelector('.enable-audio').style.display = 'block';
+      const enableAudioButton = document.getElementById('enableAudioButton');
+      enableAudioButton.style.display = 'block';
     };
   </script>
 </body>
