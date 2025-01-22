@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Audio with Effects</title>
+  <title>Audio</title>
   <style>
     * {
       margin: 0;
@@ -18,31 +18,95 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
-      background-image: url('bg.jpeg'); /* Ensure bg.jpeg is uploaded */
-      background-size: cover;
-      background-position: center;
+      background-image: url('bg.jpeg');
     }
 
-    .bubble {
+    .box {
       position: fixed;
-      bottom: 0;
-      width: 30px;
-      height: 30px;
-      background-color: rgba(255, 255, 255, 0.8);
-      border-radius: 50%;
-      animation: floatBubble 8s linear forwards;
-      z-index: 0;
+      top: 20%;
+      width: 190px;
+      height: 280px;
+      transform-style: preserve-3d;
+      animation: animate 40s linear infinite;
+      display: none; /* Initially hidden */
     }
 
-    @keyframes floatBubble {
+    @keyframes animate {
       0% {
-        transform: translateY(0);
-        opacity: 1;
+        transform: perspective(1000px) rotateY(0deg);
       }
+
       100% {
-        transform: translateY(-100vh);
-        opacity: 0;
+        transform: perspective(1000px) rotateY(360deg);
       }
+    }
+
+.box span {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform-origin: center;
+  transform-style: preserve-3d;
+  transform: rotateY(calc(var(--i) * 45deg)) translateZ(400px);
+  -webkit-box-reflect: below 0px linear-gradient(transparent, transparent, black);
+  opacity: 0; /* Initially hide the images */
+  transition: opacity 1s ease-in-out, transform 1s ease-in-out; /* Smooth transition */
+  z-index: 0;
+}
+
+.box span.visible {
+  opacity: 1; /* Make images visible when they are active */
+}
+
+
+    .box span img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      border: 2px solid white;
+      border-radius: 18px;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .foot {
+      position: fixed;
+      bottom: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      text-align: center;
+      display: none; /* Initially hidden */
+    }
+
+    .foot button {
+      background: transparent;
+      color: #000000;
+      text-decoration: underline;
+      font-size: 20px;
+      border: none;
+      margin: 0 30px;
+    }
+
+    .audio {
+      width: 100%;
+      height: 20%;
+      background: transparent;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      display: none; /* Initially hidden */
+    }
+
+    .audio .sound {
+      width: 100%;
+      height: auto;
     }
 
     .enable-audio {
@@ -60,107 +124,56 @@
       transition: background 0.3s, color 0.3s;
     }
 
-    .audio {
-      display: none; /* Initially hidden */
-      justify-content: center;
-      align-items: center;
-    }
-
-    .audio .sound {
-      width: 100%;
-    }
-
-    .box {
-      display: none; /* Initially hidden */
+    /* Bubble Styling */
+    .bubble {
       position: fixed;
-      top: 20%;
-      width: 190px;
-      height: 190px;
-      transform-style: preserve-3d;
-      animation: animate 75s linear infinite;
+      bottom: 0;
+      width: 30px;
+      height: 30px;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      animation: floatBubble 8s linear forwards;
+      z-index: 0;
     }
 
-    @keyframes animate {
+    /* Floating Upward Effect */
+    @keyframes floatBubble {
       0% {
-        transform: perspective(1000px) rotateY(0deg);
+        transform: translateY(0);
+        opacity: 1;
       }
+
       100% {
-        transform: perspective(1000px) rotateY(360deg);
+        transform: translateY(-100vh);
+        opacity: 0;
       }
-    }
-
-    .box span {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      transform-origin: center;
-      transform-style: preserve-3d;
-      transform: rotateY(calc(var(--i) * 45deg)) translateZ(400px);
-      -webkit-box-reflect: below 0px linear-gradient(transparent, transparent, black);
-    }
-
-    .box span img {
-      width: 100%;
-      border: 2px solid white;
-      border-radius: 18px;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .foot {
-      display: none; /* Initially hidden */
-      position: fixed;
-      bottom: 50px;
-      left: 50%;
-      transform: translateX(-50%);
-      justify-content: center;
-      align-items: center;
-    }
-
-    .foot button {
-      background: transparent;
-      color: #000000;
-      text-decoration: underline;
-      font-size: 20px;
-      border: none;
-      cursor: pointer;
-      margin: 0 15px;
     }
   </style>
 </head>
 
 <body>
+  <div class="bubble"></div>
   <!-- Enable Audio Button -->
-  <button class="enable-audio" id="enableAudioButton" onclick="enableAudio()">Watch Now!</button>
+  <button class="enable-audio" onclick="enableAudio()">Watch Now!</button>
 
   <!-- Audio Element -->
   <div class="audio">
     <audio class="sound" controls loop>
-      <source src="music.mp3" type="audio/mp3"> <!-- Ensure music.mp3 is uploaded -->
+      <source src="music.mp3" type="audio/mp3">
       Your browser does not support the audio element.
     </audio>
   </div>
 
   <!-- Spinning Box -->
-  <div class="box">
-    <span style="--i: 1"><img src="img1.jpeg" alt="Image 1"></span>
-    <span style="--i: 2"><img src="img2.jpeg" alt="Image 2"></span>
-    <span style="--i: 3"><img src="img3.jpeg" alt="Image 3"></span>
-    <span style="--i: 4"><img src="img4.jpeg" alt="Image 4"></span>
-    <span style="--i: 5"><img src="img5.jpeg" alt="Image 5"></span>
-    <span style="--i: 6"><img src="img6.png" alt="Image 6"></span>
-    <span style="--i: 7"><img src="img7.jpg" alt="Image 7"></span>
-    <span style="--i: 8"><img src="img8.jpg" alt="Image 8"></span>
-  </div>
+  <div class="box" id="spinningBox"></div>
 
-  <!-- Footer -->
   <div class="foot">
-    <button onclick="window.location.href='dashboard.html'">Back</button>
-    <button onclick="window.location.href='videos.html'">Videos</button>
+    <button class="link-button" onclick="window.location.href='dashboard.html'">Back</button>
+    <button class="link-button" onclick="window.location.href='videos.html'">Videos</button>
   </div>
 
   <script>
-    // Create floating bubbles
+    // Function to create a single bubble
     function createBubble() {
       const bubble = document.createElement('div');
       bubble.classList.add('bubble');
@@ -170,45 +183,102 @@
       bubble.style.width = `${size}px`;
       bubble.style.height = `${size}px`;
 
-      // Randomize starting position
-      bubble.style.left = `${Math.random() * window.innerWidth}px`;
+      // Randomize horizontal starting position (anywhere along the bottom)
+      const positionX = Math.random() * window.innerWidth;
+      bubble.style.left = `${positionX}px`;
 
-      // Append to body
+      // Append bubble to the body
       document.body.appendChild(bubble);
 
-      // Remove bubble after animation
-      setTimeout(() => bubble.remove(), 8000);
+      // Remove bubble after animation ends
+      setTimeout(() => {
+        bubble.remove();
+      }, 8000); // Match animation duration
     }
 
-    // Continuously generate bubbles
-    setInterval(createBubble, 300);
+    // Generate bubbles continuously
+    setInterval(createBubble, 900); // Bubble every 900ms
 
-    // Enable audio and display elements
+    // Function to show the audio, box, and footer after enabling audio
     function enableAudio() {
       const audio = document.querySelector('.sound');
       const box = document.querySelector('.box');
       const foot = document.querySelector('.foot');
-      const enableAudioButton = document.getElementById('enableAudioButton');
 
       // Play the audio
       audio.play().catch((error) => {
-        console.error('Audio playback error:', error);
+        console.error('Error enabling audio:', error);
       });
 
-      // Display hidden elements
-      document.querySelector('.audio').style.display = 'flex';
+      // Show the box and footer
       box.style.display = 'block';
-      foot.style.display = 'flex';
+      foot.style.display = 'block';
 
-      // Hide the enable button
-      enableAudioButton.style.display = 'none';
+      // Hide the Enable Audio button
+      document.querySelector('.enable-audio').style.display = 'none';
+
+      // Show the audio element
+      document.querySelector('.audio').style.display = 'flex';
     }
 
-    // On page load, show the enable audio button
-    window.onload = () => {
-      const enableAudioButton = document.getElementById('enableAudioButton');
-      enableAudioButton.style.display = 'block';
+    // Initially, the audio won't play (it's paused)
+    window.onload = function () {
+      // Show the Enable Audio button first
+      document.querySelector('.enable-audio').style.display = 'block';
     };
+
+    // Dynamically add images to the spinning box
+    const imageSources = [
+      'img1.jpeg', 'img2.jpeg', 'img3.jpeg', 'img4.jpeg',
+      'img5.jpeg', 'img6.png', 'img7.jpg', 'img8.jpg', 
+      'img9.jpeg', 'img10.jpeg', 'img11.jpg', 'img12.jpeg', 
+      'img13.jpeg', 'img14.jpeg', 'img15.jpg', 'img16.jpg', 
+      'img17.jpeg', 'img18.jpeg', 'img19.jpeg', 'img20.jpeg', 'img21.jpeg', 'img22.jpeg', 'img23.jpeg', 'img24.jpeg', 'img25.jpeg', 'img26.jpeg', 'img27.jpeg', 'img28.jpeg', 'img29.jpeg', 'img30.jpeg', 'img31.jpeg', 'img32.jpeg', 'img33.jpeg', 'img34.jpeg', 'img35.jpeg', 'img36.jpeg', 'img37.png', 'img38.jpeg', 'img39.jpeg', 'img40.jpeg', 'img41.jpeg', 'img42.jpeg', 'img43.jpeg', 'img44.jpeg', 'img45.jpeg', 'img46.jpeg', 'img47.jpeg', 'img48.jpeg', 'img49.jpeg', 'img50.jpeg', 'img51.jpeg', 'img52.jpeg', 'img53.jpeg', 'img54.jpeg', 'img55.jpeg', 'img56.jpeg', 'img57.jpeg', 'img58.jpeg', 'img59.jpeg', 'img60.jpeg', 'img61.jpeg', 'img62.jpeg', 'img63.jpeg', 'img64.jpeg', 'img65.jpeg', 'img66.jpeg', 'img67.jpeg', 'img68.jpeg', 'img69.jpeg', 'img70.png', 'img71.jpeg', 'img72.jpeg', 'img73.jpeg', 'img74.jpeg', 'img75.jpeg', 'img76.jpeg', 'img77.jpeg', 'img78.jpeg', 'img79.jpeg', 'img80.jpeg'
+      
+      , 'img81.jpeg', 'img82.jpeg', 'img83.jpeg', 'img84.jpeg', 'img85.jpeg', 'img86.jpeg', 'img87.jpeg', 'img88.png', 'img89.png', 'img90.png', 'img91.png', 'img92.jpeg', 'img93.png', 'img94.png', 'img95.png', 'img96.png'
+    ];
+    
+    
+    
+    
+
+    const spinningBox = document.getElementById('spinningBox');
+    let currentIndex = 0;
+
+    // Function to add 8 images to the rotating box
+// Function to add 8 images to the rotating box
+function addImagesToBox() {
+  spinningBox.innerHTML = ''; // Clear the box before adding new images
+
+  const imagesToDisplay = imageSources.slice(currentIndex, currentIndex + 8); // Get the next 8 images
+  imagesToDisplay.forEach((src, index) => {
+    const span = document.createElement('span');
+    span.style.setProperty('--i', index + 1);
+    const img = document.createElement('img');
+    img.src = src;
+    span.appendChild(img);
+    spinningBox.appendChild(span);
+  });
+
+  // Add the visible class to make them visible with delay
+  const spans = spinningBox.querySelectorAll('span');
+  spans.forEach((span, index) => {
+    setTimeout(() => {
+      span.classList.add('visible');
+    }, index * 50); // Delay each image slightly to create a staggered effect
+  });
+
+  // Update the currentIndex to the next set of images
+  currentIndex = (currentIndex + 8) % imageSources.length;
+}
+
+    // Call the function initially to load the first set of images
+    addImagesToBox();
+
+    // Update the box every 90s (duration of rotation) to swap images
+    setInterval(() => {
+      addImagesToBox();
+    }, 40000); // 90 seconds to match the duration of the animation
   </script>
 </body>
 
