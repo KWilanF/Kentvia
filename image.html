@@ -29,6 +29,7 @@
       transform-style: preserve-3d;
       animation: animate 40s linear infinite;
       display: none; /* Initially hidden */
+      
     }
 
     @keyframes animate {
@@ -54,6 +55,7 @@
   opacity: 0; /* Initially hide the images */
   transition: opacity 1s ease-in-out, transform 1s ease-in-out; /* Smooth transition */
   z-index: 0;
+ 
 }
 
 .box span.visible {
@@ -86,12 +88,21 @@
     }
 
     .foot button {
-      background: transparent;
       color: #000000;
-      text-decoration: underline;
+      text-decoration: none;
+      width: 0px;
+      height: 40px;
+      border-radius: 5px;
       font-size: 20px;
-      border: none;
       margin: 0 30px;
+       font-size: 20px;
+        margin-bottom: 30px;
+        background: linear-gradient(45deg, #d9d0f7, #d99f95);
+        text-decoration: none;
+        width: 90px;
+        height: 40px;
+        border-radius: 5px;
+        border: 2px solid #ffffff;
     }
 
     .audio {
@@ -115,9 +126,9 @@
       left: 50%;
       transform: translate(-50%, -50%);
       padding: 15px 30px;
-      background: #ffffff;
+      background: linear-gradient(45deg, #d9d0f7, #d99f95);
       color: #000000;
-      border: 2px solid #B1ABAB;
+      border: 2px solid #ffffff;
       border-radius: 10px;
       font-size: 20px;
       cursor: pointer;
@@ -130,7 +141,7 @@
       bottom: 0;
       width: 30px;
       height: 30px;
-      background-color: rgba(255, 255, 255, 0.8);
+      background: linear-gradient(45deg, #d9d0f7,#d99f95);
       border-radius: 50%;
       animation: floatBubble 8s linear forwards;
       z-index: 0;
@@ -154,7 +165,7 @@
 <body>
   <div class="bubble"></div>
   <!-- Enable Audio Button -->
-  <button class="enable-audio" onclick="enableAudio()">Watch Now!</button>
+  <button class="enable-audio" onclick="enableAudio()">Watch Now</button>
 
   <!-- Audio Element -->
   <div class="audio">
