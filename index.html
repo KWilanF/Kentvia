@@ -158,53 +158,53 @@
         });
 
         function handleLogin(event) {
-            event.preventDefault(); // Prevent the default form submission
+    event.preventDefault(); // Prevent the default form submission
 
-            // Get form values
-            var fullname = document.getElementById("fullname").value.trim().toLowerCase();
-            var anniv = document.getElementById("anniv").value.trim();
+    // Get form values and normalize them for comparison
+    var fullname = document.getElementById("fullname").value.trim().toLowerCase();
+    var anniv = document.getElementById("anniv").value.trim();
 
-            // Define valid user credentials
-            var validUsers = [
-                { name: "via enopia", anniv: "25/01/2023" },
-                { name: "kent wilan fegarido", anniv: "25/01/2023" }
-            ];
+    // Define valid user credentials (names are stored in lowercase)
+    var validUsers = [
+        { name: "via enopia", anniv: "25/01/2023" },
+        { name: "kent wilan fegarido", anniv: "25/01/2023" }
+    ];
 
-            // Reset any previous errors
-            resetErrors();
+    // Reset any previous errors
+    resetErrors();
 
-            var isValidUser = validUsers.some(function(user) {
-                return user.name === fullname && user.anniv === anniv;
-            });
+    // Check if the input matches a valid user
+    var matchedUser = validUsers.find(user => user.name === fullname && user.anniv === anniv);
 
-            if (isValidUser) {
-                // Display loading screen with spinner
-                document.getElementById("loading").style.display = "flex";
+    if (matchedUser) {
+        // Display loading screen with spinner
+        document.getElementById("loading").style.display = "flex";
 
-                // Redirect to the dashboard page after 2 seconds
-                setTimeout(function() {
-                    window.location.href = "dashboard.html";
-                }, 2000);
-            } else {
-                // Show error messages and highlight fields
-                if (!validUsers.some(user => user.name === fullname)) {
-                    document.getElementById("fullname").classList.add("inputError");
-                    document.getElementById("fullnameError").classList.remove("hidden");
-                }
-                if (!validUsers.some(user => user.anniv === anniv)) {
-                    document.getElementById("anniv").classList.add("inputError");
-                    document.getElementById("annivError").classList.remove("hidden");
-                }
-            }
+        // Redirect to the dashboard page after 2 seconds
+        setTimeout(function () {
+            window.location.href = "dashboard.html";
+        }, 2000);
+    } else {
+        // Show error messages and highlight fields
+        if (!validUsers.some(user => user.name === fullname)) {
+            document.getElementById("fullname").classList.add("inputError");
+            document.getElementById("fullnameError").classList.remove("hidden");
         }
-
-        // Function to reset error states
-        function resetErrors() {
-            document.getElementById("fullname").classList.remove("inputError");
-            document.getElementById("anniv").classList.remove("inputError");
-            document.getElementById("fullnameError").classList.add("hidden");
-            document.getElementById("annivError").classList.add("hidden");
+        if (!validUsers.some(user => user.anniv === anniv)) {
+            document.getElementById("anniv").classList.add("inputError");
+            document.getElementById("annivError").classList.remove("hidden");
         }
+    }
+}
+
+// Function to reset error states
+function resetErrors() {
+    document.getElementById("fullname").classList.remove("inputError");
+    document.getElementById("anniv").classList.remove("inputError");
+    document.getElementById("fullnameError").classList.add("hidden");
+    document.getElementById("annivError").classList.add("hidden");
+}
+
     </script>
 
 </body>
