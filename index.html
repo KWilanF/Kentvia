@@ -39,7 +39,7 @@
         input::placeholder {
             color: #000000;
             font-size: 12px;
-            font-weight: 3000
+            font-weight: 3000;
         }
 
         #togglePassword {
@@ -122,7 +122,7 @@
         <form id="form" onsubmit="return handleLogin(event)">
             <div>
                 <input type="text" id="fullname" required placeholder="Enter Your Full Name">
-                <p id="fullnameError" class="errorMessage hidden">Invalid</p>
+                <p id="fullnameError" class="errorMessage hidden">Invalid Full Name</p>
             </div>
 
             <div>
@@ -132,7 +132,7 @@
                         👁️
                     </span>
                 </div>
-                <p id="annivError" class="errorMessage hidden">Invalid</p>
+                <p id="annivError" class="errorMessage hidden">Invalid Anniversary Date</p>
             </div>
 
             <div class="submit">
@@ -161,42 +161,37 @@
             event.preventDefault(); // Prevent the default form submission
 
             // Get form values
-            var fullname = document.getElementById("fullname").value;
-            var anniv = document.getElementById("anniv").value;
+            var fullname = document.getElementById("fullname").value.trim().toLowerCase();
+            var anniv = document.getElementById("anniv").value.trim();
 
             // Define valid user credentials
             var validUsers = [
-                { name: "Via Enopia", anniv: "25/01/2023" },
-                { name: "Kent Wilan Fegarido", anniv: "25/01/2023" }
+                { name: "via enopia", anniv: "25/01/2023" },
+                { name: "kent wilan fegarido", anniv: "25/01/2023" }
             ];
 
             // Reset any previous errors
             resetErrors();
 
-            var isValidFullname = validUsers.some(function(user) {
-                return user.name === fullname;
+            var isValidUser = validUsers.some(function(user) {
+                return user.name === fullname && user.anniv === anniv;
             });
 
-            var isValidAnniv = validUsers.some(function(user) {
-                return user.anniv === anniv;
-            });
-
-            // Check if the input matches any valid user
-            if (isValidFullname && isValidAnniv) {
+            if (isValidUser) {
                 // Display loading screen with spinner
                 document.getElementById("loading").style.display = "flex";
 
-                // Redirect to the dashboard page after 3 seconds
+                // Redirect to the dashboard page after 2 seconds
                 setTimeout(function() {
-                    window.location.href = "dashboard.html"; // Redirect to the dashboard page
+                    window.location.href = "dashboard.html";
                 }, 2000);
             } else {
                 // Show error messages and highlight fields
-                if (!isValidFullname) {
+                if (!validUsers.some(user => user.name === fullname)) {
                     document.getElementById("fullname").classList.add("inputError");
                     document.getElementById("fullnameError").classList.remove("hidden");
                 }
-                if (!isValidAnniv) {
+                if (!validUsers.some(user => user.anniv === anniv)) {
                     document.getElementById("anniv").classList.add("inputError");
                     document.getElementById("annivError").classList.remove("hidden");
                 }
